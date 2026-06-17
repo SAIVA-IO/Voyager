@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -16,19 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { agentFeatures } from "@/lib/navigation";
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
+import { useSmoothScroll, useMountAnimations, useScrollAnimations } from "@/lib/scroll-setup";
 
 const agentColors = [
   "from-violet-500 to-purple-600",
@@ -49,6 +36,10 @@ const useCases = [
 ];
 
 export default function AgentsPage() {
+  useSmoothScroll();
+  useMountAnimations();
+  useScrollAnimations();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -56,12 +47,7 @@ export default function AgentsPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-32">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
+            <div className="gs-fade-in max-w-4xl">
               <Badge variant="secondary" className="mb-6">
                 <Sparkles className="h-3 w-3 mr-1" />
                 SAIVA Agents
@@ -87,19 +73,14 @@ export default function AgentsPage() {
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Features Grid */}
         <section className="py-20 md:py-28 bg-muted/30">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
+            <div className="gs-fade-up text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                 Everything you need to build agents
               </h2>
@@ -107,20 +88,10 @@ export default function AgentsPage() {
                 From testing to deployment, SAIVA Agents provides all the tools
                 you need to build and manage conversational AI.
               </p>
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
+            </div>
+            <div className="gs-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {agentFeatures.map((feature, i) => (
-                <motion.div
-                  key={feature.title}
-                  variants={fadeIn}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                >
+                <div key={feature.title} className="gs-fade-up" style={{ animationDelay: `${i * 50}ms` }}>
                   <Link href={feature.href}>
                     <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                       <CardContent className="p-6">
@@ -132,40 +103,28 @@ export default function AgentsPage() {
                       </CardContent>
                     </Card>
                   </Link>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Use Cases Section */}
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <div className="gs-fade-up text-center mb-12">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                 Built for every use case
               </h2>
-            </motion.div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-              {useCases.map((useCase, i) => (
-                <motion.div
-                  key={useCase}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="flex items-center gap-3 bg-muted/50 p-4 rounded-xl hover:bg-muted transition-colors"
-                >
+            </div>
+            <div className="gs-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+              {useCases.map((useCase) => (
+                <div key={useCase} className="gs-fade-up flex items-center gap-3 bg-muted/50 p-4 rounded-xl hover:bg-muted transition-colors">
                   <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shrink-0">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                   <span className="font-medium">{useCase}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -175,11 +134,7 @@ export default function AgentsPage() {
         <section className="py-20 md:py-28 bg-gradient-to-br from-gray-900 to-black text-white">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
+              <div className="gs-fade-left">
                 <Badge variant="outline" className="border-gray-700 text-gray-300 mb-6">
                   Integrations
                 </Badge>
@@ -200,13 +155,8 @@ export default function AgentsPage() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
+              </div>
+              <div className="gs-fade-right">
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                   <div className="space-y-4">
                     <div className="bg-white/10 rounded-2xl p-4">
@@ -238,7 +188,7 @@ export default function AgentsPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -246,11 +196,7 @@ export default function AgentsPage() {
         {/* CTA Section */}
         <section className="py-20 md:py-28 bg-black text-white">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
+            <div className="gs-scale-in">
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Ready to deploy your first agent?
               </h2>
@@ -262,7 +208,7 @@ export default function AgentsPage() {
                   Get started for free <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ArrowLeft, Check, Music } from "lucide-react";
+import { useMountAnimations } from "@/lib/scroll-setup";
 
 const endpoints = [
   { method: "POST", path: "/v1/music/generate", desc: "Generate music from text prompt" },
@@ -16,13 +16,14 @@ const endpoints = [
 ];
 
 export default function MusicApiPage() {
+  useMountAnimations();
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1">
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
+            <div className="gs-fade-in max-w-3xl">
               <Link href="/api" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
                 <ArrowLeft className="h-4 w-4" /> Back to SAIVA API
               </Link>
@@ -33,7 +34,7 @@ export default function MusicApiPage() {
                 <Link href="/signup"><Button className="bg-black text-white hover:bg-neutral-800 px-8">Get API key <ArrowRight className="ml-2 h-5 w-5" /></Button></Link>
                 <Link href="/api"><Button variant="outline" className="px-8">View all endpoints</Button></Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
         <section className="py-16 md:py-24">

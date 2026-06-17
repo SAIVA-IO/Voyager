@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -9,19 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, ArrowRight, Globe, Sparkles } from "lucide-react";
 import { studioFeatures } from "@/lib/navigation";
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
+import { useSmoothScroll, useMountAnimations, useScrollAnimations } from "@/lib/scroll-setup";
 
 const studioColors = [
   "from-violet-500 to-purple-600",
@@ -47,6 +34,10 @@ const languages = [
 ];
 
 export default function StudioPage() {
+  useSmoothScroll();
+  useMountAnimations();
+  useScrollAnimations();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -54,12 +45,7 @@ export default function StudioPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-32">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
+            <div className="gs-fade-in max-w-4xl">
               <Badge variant="secondary" className="mb-6">
                 <Sparkles className="h-3 w-3 mr-1" />
                 SAIVA Studio
@@ -85,19 +71,14 @@ export default function StudioPage() {
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Features Grid */}
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
+            <div className="gs-fade-up text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                 Everything you need to create
               </h2>
@@ -105,20 +86,10 @@ export default function StudioPage() {
                 From text-to-speech to video generation, SAIVA Studio has all the tools
                 you need to bring your ideas to life.
               </p>
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
+            </div>
+            <div className="gs-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {studioFeatures.map((feature, i) => (
-                <motion.div
-                  key={feature.title}
-                  variants={fadeIn}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                >
+                <div key={feature.title} className="gs-fade-up" style={{ animationDelay: `${i * 50}ms` }}>
                   <Link href={feature.href}>
                     <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full cursor-pointer">
                       <CardContent className="p-6">
@@ -132,9 +103,9 @@ export default function StudioPage() {
                       </CardContent>
                     </Card>
                   </Link>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -142,11 +113,7 @@ export default function StudioPage() {
         <section className="py-20 md:py-28 bg-gradient-to-br from-gray-900 to-black text-white">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
+              <div className="gs-fade-left">
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
                   Listen to our voices
                 </h2>
@@ -159,13 +126,8 @@ export default function StudioPage() {
                     <Play className="mr-2 h-4 w-4" /> Try it yourself
                   </Button>
                 </Link>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
+              </div>
+              <div className="gs-fade-right">
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-xl">
@@ -191,7 +153,7 @@ export default function StudioPage() {
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -199,12 +161,7 @@ export default function StudioPage() {
         {/* Languages Section */}
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <div className="gs-fade-up text-center mb-12">
               <div className="inline-flex items-center gap-2 mb-4">
                 <Globe className="h-5 w-5" />
                 <span className="text-sm font-medium text-muted-foreground">Global Reach</span>
@@ -215,40 +172,27 @@ export default function StudioPage() {
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Create content in virtually any language with native-quality voices.
               </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto"
-            >
-              {languages.slice(0, 30).map((lang, i) => (
-                <motion.div
+            </div>
+            <div className="gs-fade-up flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+              {languages.slice(0, 30).map((lang) => (
+                <div
                   key={lang}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.02 }}
                   className="px-4 py-2 bg-muted rounded-full text-sm font-medium hover:bg-muted/80 transition-colors cursor-default"
                 >
                   {lang}
-                </motion.div>
+                </div>
               ))}
               <div className="px-4 py-2 bg-black text-white rounded-full text-sm font-medium">
                 +{languages.length - 30} more
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* CTA Section */}
         <section className="py-20 md:py-28 bg-black text-white">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
+            <div className="gs-scale-in">
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Start creating with SAIVA Studio
               </h2>
@@ -260,7 +204,7 @@ export default function StudioPage() {
                   Get started for free <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

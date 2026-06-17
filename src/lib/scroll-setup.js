@@ -1,29 +1,49 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+import Lenis from "lenis";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
-export function useScrollSetup() {
+let lenisInstance = null;
+
+export function useSmoothScroll() {
+  const initialized = useRef(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(max-width: 768px)").matches) return;
+    if (initialized.current) return;
+    initialized.current = true;
 
-    const smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.2,
-      effects: true,
-      normalizeScroll: true,
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
     });
 
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    lenisInstance = lenis;
+
     return () => {
-      smoother.kill();
+      if (lenisInstance) {
+        lenisInstance.destroy();
+        lenisInstance = null;
+      }
+      initialized.current = false;
     };
   }, []);
 }
@@ -79,6 +99,19 @@ export function useHeroReveal() {
     return () => {
       tl.kill();
     };
+  }, []);
+}
+
+export function useMountAnimations() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const elements = gsap.utils.toArray(".gs-fade-in");
+    elements.forEach((el) => {
+      gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+    });
   }, []);
 }
 

@@ -79,6 +79,10 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const preventScroll = (e) => {
+    e.stopPropagation();
+  };
+
   const openMenu = () => {
     setMenuVisible(true);
     requestAnimationFrame(() => {
@@ -129,6 +133,8 @@ export function Navbar() {
           ? "bg-white/95 backdrop-blur-md border-b border-border shadow-sm"
           : "bg-white"
       }`}
+      onTouchMove={mobileOpen ? preventScroll : undefined}
+      onWheel={mobileOpen ? preventScroll : undefined}
     >
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-5 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center group">
@@ -205,14 +211,20 @@ export function Navbar() {
       {menuVisible && (
         <>
           <div
-            className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ${
+            className={`fixed inset-0 bg-black/50 z-[60] lg:hidden transition-opacity duration-300 ${
               menuAnimating ? "opacity-100" : "opacity-0"
             }`}
             onClick={toggleMenu}
+            onTouchMove={preventScroll}
+            onWheel={preventScroll}
           />
-          <div className={`fixed top-0 right-0 bottom-0 w-[300px] bg-white z-50 lg:hidden overflow-y-auto shadow-xl transition-transform duration-300 ease-in-out ${
-            menuAnimating ? "translate-x-0" : "translate-x-full"
-          }`}>
+          <div
+            className={`fixed top-0 right-0 bottom-0 w-[300px] bg-white z-[70] lg:hidden overflow-y-auto shadow-xl transition-transform duration-300 ease-in-out ${
+              menuAnimating ? "translate-x-0" : "translate-x-full"
+            }`}
+            onTouchMove={preventScroll}
+            onWheel={preventScroll}
+          >
             <div className="p-6">
               <div className="flex items-center justify-between mb-8">
                 <Link href="/" className="flex items-center" onClick={toggleMenu}>

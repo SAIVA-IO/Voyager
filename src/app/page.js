@@ -7,7 +7,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { TryNowSection } from "@/components/try-now";
 import { GradientMesh } from "@/components/gradient-mesh";
-import { useScrollSetup, useHeroReveal, useScrollAnimations } from "@/lib/scroll-setup";
+import { useSmoothScroll, useHeroReveal, useScrollAnimations } from "@/lib/scroll-setup";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -91,22 +91,20 @@ function SplitText({ text, className = "" }) {
 }
 
 export default function HomePage() {
-  useScrollSetup();
+  useSmoothScroll();
   useHeroReveal();
   useScrollAnimations();
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <Navbar />
+      <Navbar />
           <main className="flex-1">
             {/* Hero Section */}
             <section id="hero" className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-[90vh] flex items-center">
               <GradientMesh />
               <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <div>
+                  <div className="order-1 lg:order-none">
                     <div className="hero-badge" style={{ opacity: 0 }}>
                       <Badge variant="secondary" className="mb-6 text-sm">
                         <Sparkles className="h-3 w-3 mr-1" />
@@ -114,33 +112,18 @@ export default function HomePage() {
                       </Badge>
                     </div>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[0.95]">
-                      <SplitText text="Bringing" /><br />
-                      <SplitText text="technology" /><br />
-                      <SplitText text="to life" />
+                      <SplitText text="Voice" /><br />
+                      <SplitText text="intelligence" />
                     </h1>
-                    <div className="hero-subtitle" style={{ opacity: 0 }}>
+                    <div className="hero-subtitle hidden md:block" style={{ opacity: 0 }}>
                       <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl leading-relaxed">
                         Powering the best enterprises, creators, and developers. From conversational
                         agents for customer experience, to content creation with the leading AI voice platform.
                       </p>
                     </div>
-                    <div className="hero-cta" style={{ opacity: 0 }}>
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <Link href="/signup" className="w-full sm:w-auto">
-                          <Button size="lg" className="bg-black text-white hover:bg-neutral-800 px-8 py-6 text-base w-full">
-                            Sign up for free
-                          </Button>
-                        </Link>
-                        <Link href="/contact" className="w-full sm:w-auto">
-                          <Button size="lg" variant="outline" className="px-8 py-6 text-base w-full">
-                            Contact sales
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
                   </div>
 
-                  <div className="hidden lg:block hero-image" style={{ opacity: 0 }}>
+                  <div className="order-2 lg:order-none hero-image" style={{ opacity: 0 }}>
                     <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
                       <Image
                         src="/dashboard.png"
@@ -150,6 +133,21 @@ export default function HomePage() {
                         className="w-full h-auto"
                         priority
                       />
+                    </div>
+                  </div>
+
+                  <div className="order-3 lg:order-none hero-cta" style={{ opacity: 0 }}>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Link href="/signup" className="w-full sm:w-auto">
+                        <Button size="lg" className="bg-black text-white hover:bg-neutral-800 px-8 py-6 text-base w-full">
+                          Sign up for free
+                        </Button>
+                      </Link>
+                      <Link href="/contact" className="w-full sm:w-auto">
+                        <Button size="lg" variant="outline" className="px-8 py-6 text-base w-full">
+                          Contact sales
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -646,7 +644,5 @@ const audio = await response.blob();
           </main>
           <Footer />
         </div>
-      </div>
-    </div>
   );
 }

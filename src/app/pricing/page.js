@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
 import {
   Accordion,
   AccordionContent,
@@ -16,19 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Check, Zap, Crown, Building2 } from "lucide-react";
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
+import { useSmoothScroll, useMountAnimations, useScrollAnimations } from "@/lib/scroll-setup";
 
 const plans = [
   {
@@ -139,7 +125,7 @@ function PricingCard({ plan, isYearly }) {
   const Icon = plan.icon;
 
   return (
-    <motion.div variants={fadeIn} transition={{ duration: 0.5 }}>
+    <div className="gs-fade-up">
       <Card
         className={`h-full relative overflow-visible ${
           plan.popular
@@ -209,12 +195,15 @@ function PricingCard({ plan, isYearly }) {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
 
 export default function PricingPage() {
   const [isYearly, setIsYearly] = useState(false);
+  useSmoothScroll();
+  useMountAnimations();
+  useScrollAnimations();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -223,12 +212,7 @@ export default function PricingPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto"
-            >
+            <div className="gs-fade-in text-center max-w-3xl mx-auto">
               <Badge variant="secondary" className="mb-6">
                 Simple, transparent pricing
               </Badge>
@@ -268,39 +252,29 @@ export default function PricingPage() {
               <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-0">
                 Save 15%
               </Badge>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Pricing Cards */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 max-w-7xl mx-auto"
-            >
+            <div className="gs-stagger grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 max-w-7xl mx-auto">
               {plans.map((plan) => (
                 <PricingCard key={plan.name} plan={plan} isYearly={isYearly} />
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* FAQ Section */}
         <section className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <div className="gs-fade-up text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
                 Frequently asked questions
               </h2>
-            </motion.div>
+            </div>
             <div className="max-w-2xl mx-auto">
               <Accordion type="single" collapsible className="space-y-0 divide-y divide-gray-200 pricing-faq">
                 {faqs.map((faq, i) => (

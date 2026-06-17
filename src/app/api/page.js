@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -9,19 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles } from "lucide-react";
 import { apiFeatures } from "@/lib/navigation";
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
+import { useSmoothScroll, useMountAnimations, useScrollAnimations } from "@/lib/scroll-setup";
 
 const apiColors = [
   "from-violet-500 to-purple-600",
@@ -71,6 +58,10 @@ const audio = await response.blob();
 // Play the audio or save it`;
 
 export default function ApiPage() {
+  useSmoothScroll();
+  useMountAnimations();
+  useScrollAnimations();
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -78,12 +69,7 @@ export default function ApiPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-32">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
+            <div className="gs-fade-in max-w-4xl">
               <Badge variant="secondary" className="mb-6">
                 <Sparkles className="h-3 w-3 mr-1" />
                 SAIVA API
@@ -109,7 +95,7 @@ export default function ApiPage() {
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -117,11 +103,7 @@ export default function ApiPage() {
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
+              <div className="gs-fade-left">
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
                   Simple integration
                 </h2>
@@ -151,14 +133,8 @@ export default function ApiPage() {
                     </Button>
                   </Link>
                 </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="w-full min-w-0"
-              >
+              </div>
+              <div className="gs-fade-right w-full min-w-0">
                 <div className="bg-[#0d0d0d] rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 font-mono text-xs sm:text-sm overflow-x-auto shadow-2xl">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -170,7 +146,7 @@ export default function ApiPage() {
                     <code>{codeExample}</code>
                   </pre>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -178,12 +154,7 @@ export default function ApiPage() {
         {/* API Endpoints */}
         <section className="py-20 md:py-28 bg-muted/30">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
+            <div className="gs-fade-up text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                 API endpoints
               </h2>
@@ -191,20 +162,10 @@ export default function ApiPage() {
                 Access all SAIVA capabilities through our unified API.
                 Simple pricing per second of audio.
               </p>
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
+            </div>
+            <div className="gs-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {apiFeatures.map((endpoint, i) => (
-                <motion.div
-                  key={endpoint.title}
-                  variants={fadeIn}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
+                <div key={endpoint.title} className="gs-fade-up" style={{ animationDelay: `${i * 100}ms` }}>
                   <Link href={endpoint.href}>
                     <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                       <CardContent className="p-6">
@@ -217,9 +178,9 @@ export default function ApiPage() {
                       </CardContent>
                     </Card>
                   </Link>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -227,11 +188,7 @@ export default function ApiPage() {
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
+              <div className="gs-fade-left">
                 <Badge variant="secondary" className="mb-6">Enterprise</Badge>
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
                   Built for scale
@@ -250,13 +207,8 @@ export default function ApiPage() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
+              </div>
+              <div className="gs-fade-right">
                 <div className="bg-muted rounded-3xl p-8">
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
@@ -275,7 +227,7 @@ export default function ApiPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -283,11 +235,7 @@ export default function ApiPage() {
         {/* CTA Section */}
         <section className="py-20 md:py-28 bg-black text-white">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
+            <div className="gs-scale-in">
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Start building with SAIVA API
               </h2>
@@ -299,7 +247,7 @@ export default function ApiPage() {
                   Get API key <span className="ml-2">→</span>
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>
