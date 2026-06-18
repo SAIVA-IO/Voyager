@@ -243,6 +243,34 @@
 }
 
 /* ===========================
+   Glassmorphism Tokens
+   =========================== */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-blur: 24px;
+  --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+}
+
+/* ===========================
+   Navbar Entrance Animation
+   =========================== */
+@keyframes navbar-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-navbar-enter {
+  animation: navbar-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===========================
    Reduced Motion
    =========================== */
 @media (prefers-reduced-motion: reduce) {
@@ -252,6 +280,11 @@
   .hero-title-word span {
     opacity: 1 !important;
     filter: none !important;
+    transform: none !important;
+  }
+  .animate-navbar-enter {
+    animation: none !important;
+    opacity: 1 !important;
     transform: none !important;
   }
   #smooth-wrapper {

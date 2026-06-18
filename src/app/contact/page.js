@@ -50,7 +50,7 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="container mx-auto px-4 md:px-6 py-16 md:py-24">
           <div className="max-w-3xl">

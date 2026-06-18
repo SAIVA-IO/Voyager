@@ -20,7 +20,7 @@ export default function SoundEffectsApiPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-20">
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-16 md:py-24">
           <div className="container mx-auto px-4 md:px-6">
             <div className="gs-fade-in max-w-3xl">

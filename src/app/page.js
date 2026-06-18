@@ -7,6 +7,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { TryNowSection } from "@/components/try-now";
 import { GradientMesh } from "@/components/gradient-mesh";
+import { StickyScrollSection } from "@/components/sticky-scroll-section";
 import { useSmoothScroll, useHeroReveal, useScrollAnimations } from "@/lib/scroll-setup";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,27 +20,6 @@ import {
   Star,
 } from "lucide-react";
 import { studioFeatures, agentFeatures } from "@/lib/navigation";
-
-const studioColors = [
-  "from-violet-500 to-purple-600",
-  "from-blue-500 to-cyan-500",
-  "from-emerald-500 to-teal-500",
-  "from-orange-500 to-red-500",
-  "from-pink-500 to-rose-500",
-  "from-amber-500 to-yellow-500",
-  "from-indigo-500 to-blue-500",
-  "from-cyan-500 to-teal-500",
-  "from-rose-500 to-pink-500",
-];
-
-const agentColors = [
-  "from-violet-500 to-purple-600",
-  "from-blue-500 to-cyan-500",
-  "from-emerald-500 to-teal-500",
-  "from-orange-500 to-amber-500",
-  "from-pink-500 to-rose-500",
-  "from-indigo-500 to-blue-500",
-];
 
 const trustedLogos = [
   { name: "Twilio" },
@@ -124,7 +104,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="order-2 lg:order-none hero-image" style={{ opacity: 0 }}>
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200 gs-parallax" data-speed="0.2">
                       <Image
                         src="/dashboard.png"
                         alt="SAIVA Dashboard"
@@ -155,7 +135,7 @@ export default function HomePage() {
             </section>
 
             {/* Stats Bar */}
-            <section id="stats" className="border-y border-border bg-white">
+            <section id="stats" className="border-y border-border bg-white gs-parallax" data-speed="0.05">
               <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-8">
                 <div className="gs-stagger grid grid-cols-2 md:grid-cols-4 gap-8">
                   {stats.map((stat) => (
@@ -175,107 +155,13 @@ export default function HomePage() {
 
             {/* Product Showcase - SAIVA Studio */}
             <section id="studio" className="py-20 md:py-28">
-              <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-                <div className="text-center mb-16 gs-fade-up">
-                  <div className="inline-flex items-center gap-2 mb-4">
-                    <div className="h-3 w-3 rounded-full bg-gradient-to-r from-violet-500 to-purple-600" />
-                    <span className="text-sm font-medium text-muted-foreground">SAIVA Studio</span>
-                  </div>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-                    Create, edit and localize
-                    <br />
-                    in one AI platform
-                  </h2>
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Generate ultra-realistic speech, turn ideas into videos, compose music in any genre,
-                    or design immersive sound effects. All powered by cutting-edge AI.
-                  </p>
-                </div>
-
-                <div className="gs-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[180px]">
-                  {/* Hero Card - Dubbing Studio */}
-                  <Link href={studioFeatures[0].href} className="sm:col-span-2 row-span-2 group">
-                    <div className="h-full rounded-2xl border border-border bg-gradient-to-br from-orange-500/5 to-red-500/10 p-8 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                      <div className="relative">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-5 shadow-lg">
-                          {(() => { const Icon = studioFeatures[0].icon; return <Icon className="h-7 w-7 text-white" />; })()}
-                        </div>
-                        <h3 className="text-2xl font-bold mb-2 group-hover:text-orange-600 transition-colors">{studioFeatures[0].title}</h3>
-                        <p className="text-muted-foreground leading-relaxed max-w-md mb-5">{studioFeatures[0].description}</p>
-                        <div className="space-y-2">
-                          {[
-                            { step: "01", text: "Upload your video" },
-                            { step: "02", text: "Select target language" },
-                            { step: "03", text: "Download dubbed video" },
-                          ].map((s) => (
-                            <div key={s.step} className="flex items-center gap-3">
-                              <div className="text-xs font-bold text-orange-500 shrink-0">{s.step}</div>
-                              <div className="text-sm text-muted-foreground">{s.text}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="relative flex items-center gap-2 text-sm font-medium text-orange-600 mt-4">
-                        Explore <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
-
-                  {/* Cards 1-2: Right column */}
-                  {studioFeatures.slice(1, 3).map((feature, i) => (
-                    <Link key={feature.title} href={feature.href} className="group">
-                      <div className="h-full rounded-2xl border border-border bg-white p-6 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div>
-                          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${studioColors[i + 1]} flex items-center justify-center mb-4 shadow-lg`}>
-                            <feature.icon className="h-5 w-5 text-white" />
-                          </div>
-                          <h3 className="text-base font-semibold mb-1 group-hover:text-violet-600 transition-colors">{feature.title}</h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {/* Cards 3-5: Bottom row */}
-                  {studioFeatures.slice(3, 6).map((feature, i) => (
-                    <Link key={feature.title} href={feature.href} className="group">
-                      <div className="h-full rounded-2xl border border-border bg-white p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div>
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${studioColors[i + 3]} flex items-center justify-center mb-3 shadow-lg`}>
-                            <feature.icon className="h-5 w-5 text-white" />
-                          </div>
-                          <h3 className="text-sm font-semibold mb-1 group-hover:text-violet-600 transition-colors">{feature.title}</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {/* Cards 6-8: Last row */}
-                  {studioFeatures.slice(6, 9).map((feature, i) => (
-                    <Link key={feature.title} href={feature.href} className="group">
-                      <div className="h-full rounded-2xl border border-border bg-white p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div>
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${studioColors[i + 6]} flex items-center justify-center mb-3 shadow-lg`}>
-                            <feature.icon className="h-5 w-5 text-white" />
-                          </div>
-                          <h3 className="text-sm font-semibold mb-1 group-hover:text-violet-600 transition-colors">{feature.title}</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="mt-12 text-center gs-fade-up">
-                  <Link href="/studio">
-                    <Button size="lg" className="bg-black text-white hover:bg-neutral-800 px-8">
-                      Try SAIVA Studio <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+              <StickyScrollSection
+                title={<>Create, edit and localize<br />in one AI platform</>}
+                subtitle="Generate ultra-realistic speech, turn ideas into videos, compose music in any genre, or design immersive sound effects. All powered by cutting-edge AI."
+                badge="SAIVA Studio"
+                features={studioFeatures}
+                accentColor="violet"
+              />
             </section>
 
             {/* Interactive Demo Section */}
@@ -307,7 +193,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="gs-fade-right">
-                    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
+                    <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 gs-parallax" data-speed="0.15">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-xl">
                           <Play className="h-6 w-6 text-white ml-1" />
@@ -339,130 +225,62 @@ export default function HomePage() {
 
             {/* SAIVA Agents Section */}
             <section id="agents" className="py-20 md:py-28 bg-white">
+              <StickyScrollSection
+                title={<>Deploy conversational AI<br />that sounds human</>}
+                subtitle="Configure, deploy, and monitor AI agents across voice, chat, and video channels. Connected to your knowledge base, APIs, and enterprise systems."
+                badge="SAIVA Agents"
+                features={agentFeatures}
+                accentColor="emerald"
+              />
+            </section>
+
+            {/* Omnichannel support showcase */}
+            <section className="py-12 bg-white">
               <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-                <div className="text-center mb-16 gs-fade-up">
-                  <div className="inline-flex items-center gap-2 mb-4">
-                    <div className="h-3 w-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
-                    <span className="text-sm font-medium text-muted-foreground">SAIVA Agents</span>
-                  </div>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-                    Deploy conversational AI
-                    <br />
-                    that sounds human
-                  </h2>
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Configure, deploy, and monitor AI agents across voice, chat, and video channels.
-                    Connected to your knowledge base, APIs, and enterprise systems.
-                  </p>
-                </div>
-
-                <div className="gs-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[180px]">
-                  {/* Hero Card - Voice Agents */}
-                  <Link href={agentFeatures[0].href} className="sm:col-span-2 row-span-2 group">
-                    <div className="h-full rounded-2xl border border-border bg-gradient-to-br from-violet-500/5 to-purple-500/10 p-8 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-violet-500/10 to-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                      <div className="relative">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-5 shadow-lg">
-                          {(() => { const Icon = agentFeatures[0].icon; return <Icon className="h-7 w-7 text-white" />; })()}
-                        </div>
-                        <h3 className="text-2xl font-bold mb-2 group-hover:text-violet-600 transition-colors">{agentFeatures[0].title}</h3>
-                        <p className="text-muted-foreground leading-relaxed max-w-md mb-5">{agentFeatures[0].description}</p>
-                        <div className="space-y-2">
-                          {[
-                            { step: "01", text: "Configure your agent" },
-                            { step: "02", text: "Connect knowledge base" },
-                            { step: "03", text: "Deploy to phone lines" },
-                          ].map((s) => (
-                            <div key={s.step} className="flex items-center gap-3">
-                              <div className="text-xs font-bold text-violet-500 shrink-0">{s.step}</div>
-                              <div className="text-sm text-muted-foreground">{s.text}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="relative flex items-center gap-2 text-sm font-medium text-violet-600 mt-4">
-                        Explore <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
+                <div className="bg-muted rounded-3xl p-8 md:p-12 gs-fade-up">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-4">Omnichannel support</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Deploy agents across every channel your customers use. One agent, everywhere.
+                      </p>
+                      <ul className="space-y-3">
+                        {["Voice Call", "Chat Widget", "Video Call", "WhatsApp", "Mobile App"].map((channel) => (
+                          <li key={channel} className="flex items-center gap-2">
+                            <Check className="h-4 w-4 text-emerald-500" />
+                            <span>{channel}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </Link>
-
-                  {/* Cards 1-2: Right column */}
-                  {agentFeatures.slice(1, 3).map((feature, i) => (
-                    <Link key={feature.title} href={feature.href} className="group">
-                      <div className="h-full rounded-2xl border border-border bg-white p-6 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div>
-                          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${agentColors[i + 1]} flex items-center justify-center mb-4 shadow-lg`}>
-                            <feature.icon className="h-5 w-5 text-white" />
+                    <div className="bg-white rounded-2xl p-6 shadow-sm gs-parallax" data-speed="0.12">
+                      <div className="space-y-4">
+                        <div className="flex gap-3">
+                          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                            <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
                           </div>
-                          <h3 className="text-base font-semibold mb-1 group-hover:text-emerald-600 transition-colors">{feature.title}</h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                          <div className="bg-muted rounded-2xl rounded-tl-none p-3 text-sm">
+                            Hi! How can I help you today?
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {/* Cards 3-5: Bottom row */}
-                  {agentFeatures.slice(3, 6).map((feature, i) => (
-                    <Link key={feature.title} href={feature.href} className="group">
-                      <div className="h-full rounded-2xl border border-border bg-white p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 cursor-pointer">
-                        <div>
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${agentColors[i + 3]} flex items-center justify-center mb-3 shadow-lg`}>
-                            <feature.icon className="h-5 w-5 text-white" />
+                        <div className="flex gap-3 justify-end">
+                          <div className="bg-black text-white rounded-2xl rounded-tr-none p-3 text-sm">
+                            I need help with my order
                           </div>
-                          <h3 className="text-sm font-semibold mb-1 group-hover:text-emerald-600 transition-colors">{feature.title}</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
+                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+                            <span className="text-xs font-medium">U</span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="mt-12 gs-fade-up">
-                  <div className="bg-muted rounded-3xl p-8 md:p-12">
-                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                      <div>
-                        <h3 className="text-2xl font-bold mb-4">Omnichannel support</h3>
-                        <p className="text-muted-foreground mb-6">
-                          Deploy agents across every channel your customers use. One agent, everywhere.
-                        </p>
-                        <ul className="space-y-3">
-                          {["Voice Call", "Chat Widget", "Video Call", "WhatsApp", "Mobile App"].map((channel) => (
-                            <li key={channel} className="flex items-center gap-2">
-                              <Check className="h-4 w-4 text-emerald-500" />
-                              <span>{channel}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 shadow-sm">
-                        <div className="space-y-4">
-                          <div className="flex gap-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                              <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                              </svg>
-                            </div>
-                            <div className="bg-muted rounded-2xl rounded-tl-none p-3 text-sm">
-                              Hi! How can I help you today?
-                            </div>
+                        <div className="flex gap-3">
+                          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                            <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
                           </div>
-                          <div className="flex gap-3 justify-end">
-                            <div className="bg-black text-white rounded-2xl rounded-tr-none p-3 text-sm">
-                              I need help with my order
-                            </div>
-                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
-                              <span className="text-xs font-medium">U</span>
-                            </div>
-                          </div>
-                          <div className="flex gap-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                              <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                              </svg>
-                            </div>
-                            <div className="bg-muted rounded-2xl rounded-tl-none p-3 text-sm">
-                              I&apos;d be happy to help! Let me look up your order...
-                            </div>
+                          <div className="bg-muted rounded-2xl rounded-tl-none p-3 text-sm">
+                            I&apos;d be happy to help! Let me look up your order...
                           </div>
                         </div>
                       </div>
@@ -523,7 +341,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="w-full min-w-0 gs-fade-right">
-                    <div className="bg-[#0d0d0d] rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 font-mono text-xs sm:text-sm overflow-x-auto">
+                    <div className="bg-[#0d0d0d] rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 font-mono text-xs sm:text-sm overflow-x-auto gs-parallax" data-speed="0.15">
                       <div className="flex items-center gap-2 mb-4">
                         <div className="w-3 h-3 rounded-full bg-red-500" />
                         <div className="w-3 h-3 rounded-full bg-yellow-500" />
@@ -618,7 +436,7 @@ const audio = await response.blob();
             {/* CTA Section */}
             <section id="cta" className="py-20 md:py-28 bg-black text-white">
               <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-                <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 gs-scale-in">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 gs-scale-in gs-parallax" data-speed="0.1">
                   Get started with
                   <br />
                   SAIVA today

@@ -65,7 +65,7 @@ export default function ApiPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 py-20 md:py-32">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
